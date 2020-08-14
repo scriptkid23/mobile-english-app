@@ -1,10 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {StyleSheet} from 'react-native';
 import Styles from '../style/splash'
+import {Block} from '../component/index'
+import Image from '../constant/image'
 export default function SplashScreen(){
     return(
-    <Styles.Wrapper>
-        <Text>123</Text>
-    </Styles.Wrapper>
+    <Block center safe>
+      <Block middle>
+        <Image.svg.Logo width={330} height={230}/>
+        <Styles.LogoText>Alook</Styles.LogoText>
+      </Block>  
+    </Block>
     )
 }

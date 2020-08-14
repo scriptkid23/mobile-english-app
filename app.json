@@ -1,5 +1,22 @@
 {
   "expo": {
+    "packagerOpts" :{
+      "config": "metro.config.js",
+      "sourceExts": [
+        "expo.ts",
+        "expo.tsx",
+        "expo.js",
+        "expo.jsx",
+        "ts",
+        "tsx",
+        "js",
+        "jsx",
+        "json",
+        "wasm",
+        "svg"
+      ]
+    }
+  },
     "name": "mobile-english-app",
     "slug": "mobile-english-app",
     "version": "1.0.0",
@@ -23,4 +40,4 @@
       "favicon": "./assets/favicon.png"
     }
   }
-}
+
