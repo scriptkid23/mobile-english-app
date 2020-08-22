@@ -2,8 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {Block} from './src/component/index'
-import Splash from './src/screen/Splash'
-import Home from './src/screen/Home'
+// import Splash from './src/screen/Splash'
+// import Home from './src/screen/Home'
+import AnimatedLab from './src/screen/AnimatedLab'
 import {useFonts} from 'expo-font'
 export default function App() {
   const [loaded,error] = useFonts({
@@ -17,7 +18,8 @@ export default function App() {
   else{
     return (
       <Block>
-        <Home/>
+        {/* <Home/> */}
+        <AnimatedLab/>
       </Block>
     );
   }
