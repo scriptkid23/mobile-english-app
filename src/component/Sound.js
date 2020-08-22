@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import { StyleSheet,  View,  Text ,TouchableOpacity} from 'react-native';
 import Image from '../constant/image'
-export default function Button(){
+import * as Speech from 'expo-speech';
+export default (props) => {
+    const speaker = (text) => {
+        Speech.speak(text)
+    }
     return(
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => speaker(props.text)}>
             <View style={styles.wrapperButton}> 
                 <Image.svg.speaker width={30} height={30}/>
             </View>

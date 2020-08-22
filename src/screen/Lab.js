@@ -1,6 +1,22 @@
 import React, { useRef, useEffect } from 'react';
 import { Animated, Text, View } from 'react-native';
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/react-hooks';
 const data = [1,2,3,4,5,6]
+export const FETCH_DATA = gql`
+query{
+  allObjectInformation{
+    edges{
+      node{
+        id_,
+        name,
+        nameVi
+      }
+    }
+  }
+}
+`;
+
 const FadeInView = (props) => {
  
   let fade = []
@@ -48,6 +64,12 @@ const FadeInView = (props) => {
 
 // You can then use your `FadeInView` in place of a `View` in your components:
 export default () => {
+  const { data, error, loading } = useQuery(FETCH_DATA);
+  console.log(data)
+  console.log(error)
+  if(!data) return null;
+ 
+  // if(data)
   return (
     <View style={{flexDirection:"row", alignItems: 'center', justifyContent: 'center',margin:19}}>
       <FadeInView len={30} duration={500}>

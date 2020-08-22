@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Animated } from 'react-native';
 
-export default (props) => {
+export default function FadeTop(props){
   const fadeAnim = useRef(new Animated.Value(0)).current  // Initial value for opacity: 0
  
   React.useEffect(() => {
@@ -10,6 +10,7 @@ export default (props) => {
       {
         toValue: 1,
         duration: props.duration,
+        useNativeDriver : true
       }
     ).start();
   }, [fadeAnim])

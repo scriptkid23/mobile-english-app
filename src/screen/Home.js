@@ -2,15 +2,36 @@ import React from 'react';
 import {StyleSheet,ImageBackground,View,ScrollView,TouchableOpacity,
     Animated
 } from 'react-native';
-import Styles from '../style/home'
 import {Block,Text,Card} from '../component/index'
 import Image from '../constant/image'
-import { Dimensions } from "react-native";
+import { Dimensions} from "react-native";
 import CameraButton from '../component/CameraButton'
 import  StoreButton from '../component/StoreButton'
 import ReportButton from '../component/ReportButton'
 import Sound from '../component/Sound';
+import FadeTop from '../component/Animated/FadeTop'
+import queries from '../graphql/queries'
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+export const FETCH_DATA = gql`
+    query{
+    allObjectInformation{
+        edges{
+        node{
+            id_
+            name
+            nameVi
+            urlIcon
+        }
+        }
+    }
+    }
+`;
 export default function HomeScreen(){
+    const { data, error, loading } = useQuery(FETCH_DATA);
+    console.log("Line 18",data)
+    if(loading) return <Text>Loading</Text>
+    if(data)
     return(
         <Block flex>
             <ImageBackground
@@ -20,10 +41,16 @@ export default function HomeScreen(){
                 <View style={styles.wrapperContentContainer}>
                     <View style={styles.wrapperContent}>    
                         <TouchableOpacity>
-                            <Image.svg.chopsticks width={120} height={120}/>
+                            <FadeTop duration={1000}>
+                                <Image.svg.chopsticks width={120} height={120}/>    
+                            </FadeTop>
+                            
                         </TouchableOpacity>
-                        <Text style={styles.font}>Chopsticks</Text>
-                        <Sound/>                   
+                        <FadeTop>
+                         <Text style={styles.font}>Chopsticks</Text>
+                        </FadeTop>
+                       
+                        <Sound text={"Chopsticks"}/>                   
                     </View>
                 </View>
                 <View style={styles.wrapperListContainer}>
@@ -33,18 +60,19 @@ export default function HomeScreen(){
                         showsVerticalScrollIndicator={false}
                         directionalLockEnabled
                     >
-                        <TouchableOpacity>         
-                            <View style={styles.wrapperList}>
-                                <Image.svg.chopsticks width={80} height={80}/>
-                                <Text style={styles.fontList}>Chopsticks</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <View style={styles.wrapperList}>
-
-                        </View>
-                        <View style={styles.wrapperList}>
-
-                        </View>
+                        {data.allObjectInformation.edges.map((value,index) => {
+                            return(
+                                <TouchableOpacity key={index}>         
+                                    <View style={styles.wrapperList}>
+                                        <Image.svg.chopsticks width={80} height={80}/>
+                                        <Text style={styles.fontList}>{value.node.name}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                      
+                        })}
+                        
+                       
                     </ScrollView>
                    
                 </View>
