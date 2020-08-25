@@ -128,4 +128,3 @@ docs/pages/versions/*/react-native/*.diff
 
 # Home
 /home/dist
-.expo/packager-info.json

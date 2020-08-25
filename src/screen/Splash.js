@@ -1,14 +1,17 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import Styles from '../style/splash'
 import {Block} from '../component/index'
 import Image from '../constant/image'
+import {Dimensions} from 'react-native'
+const { width, height } = Dimensions.get("window");
+import {StoreContext} from '../utils/store'
+
 export default function SplashScreen(){
     return(
     <Block center safe>
       <Block middle>
-        <Image.svg.Logo width={330} height={230}/>
-        <Styles.LogoText>Alook</Styles.LogoText>
+        <Image.svg.logo width={width + 10} height={height * 2 / 5}/>
+        <Styles.LogoText>Work Hunter</Styles.LogoText>
       </Block>  
     </Block>
     )

@@ -10,28 +10,11 @@ import  StoreButton from '../component/StoreButton'
 import ReportButton from '../component/ReportButton'
 import Sound from '../component/Sound';
 import FadeTop from '../component/Animated/FadeTop'
-import queries from '../graphql/queries'
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-export const FETCH_DATA = gql`
-    query{
-    allObjectInformation{
-        edges{
-        node{
-            id_
-            name
-            nameVi
-            urlIcon
-        }
-        }
-    }
-    }
-`;
+import {StoreContext} from '../utils/store'
+
 export default function HomeScreen(){
-    const { data, error, loading } = useQuery(FETCH_DATA);
-    console.log("Line 18",data)
-    if(loading) return <Text>Loading</Text>
-    if(data)
+    const {data,home} = React.useContext(StoreContext)
+    console.log(data)
     return(
         <Block flex>
             <ImageBackground
@@ -60,7 +43,7 @@ export default function HomeScreen(){
                         showsVerticalScrollIndicator={false}
                         directionalLockEnabled
                     >
-                        {data.allObjectInformation.edges.map((value,index) => {
+                        {data.payload.map((value,index) => {
                             return(
                                 <TouchableOpacity key={index}>         
                                     <View style={styles.wrapperList}>
