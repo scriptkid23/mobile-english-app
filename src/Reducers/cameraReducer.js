@@ -1,16 +1,23 @@
 export const defaultState = {
-    is_loading : true,
-    name : "",
-    urlIcon : "",
-    id_ : "",
-    nameVi:"",
-    description:"",
+   uri : "",
+   width : "",
+   height : "",
+   exif : "",
+   base64: "",
 
 };
 export default function homeReducer(state,action){
     switch (action.type) {   
-        case 'GET_DATA_SUCCEEDED':
-            break;
+        case 'SET_VALUE_PICTURE':
+            return{
+                ...state,
+                ...action.photo,
+            }
+        case 'BACK':
+            return{
+                ...state,
+                uri : "",
+            }
         case 'GET_DATA_FAILED':
             break;
         case 'SELECT_ITEM':

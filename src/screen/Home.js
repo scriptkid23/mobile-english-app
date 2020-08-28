@@ -5,16 +5,29 @@ import {StyleSheet,ImageBackground,View,ScrollView,TouchableOpacity,
 import {Block,Text,Card} from '../component/index'
 import Image from '../constant/image'
 import { Dimensions} from "react-native";
-import CameraButton from '../component/CameraButton'
-import  StoreButton from '../component/StoreButton'
-import ReportButton from '../component/ReportButton'
-import Sound from '../component/Sound';
+import CameraButton from '../component/Button/Camera'
+import  StoreButton from '../component/Button/Store'
+import ReportButton from '../component/Button/Report'
+import Sound from '../component/Button/Sound';
 import FadeTop from '../component/Animated/FadeTop'
 import {StoreContext} from '../utils/store'
+import {SvgWithCssUri} from 'react-native-svg';
 
-export default function HomeScreen(){
+export default function HomeScreen({navigation}){
     const {data,home} = React.useContext(StoreContext)
-    console.log(data)
+    React.useEffect(() => {
+        home.dispatch({
+            type:"SELECT_ITEM",
+            value: data.payload[1].node,
+        })
+    },[])
+    const handleSelectItem = React.useCallback((item) => {
+        home.dispatch({
+            type: "SELECT_ITEM",
+            value : item.node
+        })
+
+    })
     return(
         <Block flex>
             <ImageBackground
@@ -23,17 +36,23 @@ export default function HomeScreen(){
             >
                 <View style={styles.wrapperContentContainer}>
                     <View style={styles.wrapperContent}>    
-                        <TouchableOpacity>
-                            <FadeTop duration={1000}>
-                                <Image.svg.chopsticks width={120} height={120}/>    
+                        <TouchableOpacity onPress={() => navigation.navigate('Detail',{data:home.state})}>
+                           <FadeTop duration={1000}>                        
+                                    <SvgWithCssUri
+                                        width={120}
+                                        height={120}
+                                        uri={home.state.urlIcon}
+                                    />                   
                             </FadeTop>
                             
                         </TouchableOpacity>
                         <FadeTop>
-                         <Text style={styles.font}>Chopsticks</Text>
+                          
+                                <Text style={styles.font}>{home.state.name}</Text>
+                            
                         </FadeTop>
                        
-                        <Sound text={"Chopsticks"}/>                   
+                        <Sound text={home.state.name}/>                   
                     </View>
                 </View>
                 <View style={styles.wrapperListContainer}>
@@ -44,30 +63,29 @@ export default function HomeScreen(){
                         directionalLockEnabled
                     >
                         {data.payload.map((value,index) => {
+                            
                             return(
-                                <TouchableOpacity key={index}>         
+                                <TouchableOpacity key={index} onPress={() => handleSelectItem(value)}>         
                                     <View style={styles.wrapperList}>
-                                        <Image.svg.chopsticks width={80} height={80}/>
+                                        <SvgWithCssUri
+                                            width={80}
+                                            height={80}
+                                                uri={value.node.urlIcon}
+                                            />
                                         <Text style={styles.fontList}>{value.node.name}</Text>
                                     </View>
                                 </TouchableOpacity>
                             )
                       
                         })}
-                        
-                       
                     </ScrollView>
                    
                 </View>
                 <View style={styles.wrapperFeature}>
-   
                     <StoreButton/>
                     <CameraButton/>
                     <ReportButton/>
                 </View>
-                
-
-                
             </ImageBackground>
         </Block>
            

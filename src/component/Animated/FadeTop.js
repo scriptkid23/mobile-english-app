@@ -3,8 +3,8 @@ import { Animated } from 'react-native';
 
 export default function FadeTop(props){
   const fadeAnim = useRef(new Animated.Value(0)).current  // Initial value for opacity: 0
- 
-  React.useEffect(() => {
+  console.log("line 6",props.trigger)
+  const _start = () => {
     Animated.timing(
       fadeAnim,
       {
@@ -13,8 +13,11 @@ export default function FadeTop(props){
         useNativeDriver : true
       }
     ).start();
+  }
+  React.useEffect(() => {
+    _start()
   }, [fadeAnim])
-
+  if(props.trigger) _start();
   return (
     <Animated.View                
      style={{

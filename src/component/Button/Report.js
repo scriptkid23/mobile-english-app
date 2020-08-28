@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import { StyleSheet,  View,  Text ,TouchableOpacity} from 'react-native';
-import Image from '../constant/image'
+import Image from '../../constant/image'
 export default function Button(){
     return(
         <TouchableOpacity>
             <View style={styles.wrapperButton}> 
-                <Image.svg.box width={30} height={30}/>
+                <Image.svg.feedback width={25} height={25}/>
             </View>
         </TouchableOpacity>
     )
 }
 const styles = StyleSheet.create({
    wrapperButton : {
-       backgroundColor : "#21BF73",
+       backgroundColor : "#CB3737",
        alignItems : "center",
        justifyContent : "center",
        width : 50,
