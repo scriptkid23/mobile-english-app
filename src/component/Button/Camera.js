@@ -1,27 +1,25 @@
 import React, { Component } from "react";
 import { StyleSheet,  View,  Text ,TouchableOpacity} from 'react-native';
-import Image from '../constant/image'
-import * as Speech from 'expo-speech';
-export default (props) => {
-    const speaker = (text) => {
-        Speech.speak(text)
+import Image from '../../constant/image'
+export default function Button({snap}){
+    const handleAction = () => {
+        if(snap){snap();return}
     }
     return(
-        <TouchableOpacity onPress={() => speaker(props.text)}>
+        <TouchableOpacity onPress={() => handleAction()}>
             <View style={styles.wrapperButton}> 
-                <Image.svg.speaker width={30} height={30}/>
+                <Image.svg.camera width={30} height={30}/>
             </View>
         </TouchableOpacity>
     )
 }
 const styles = StyleSheet.create({
    wrapperButton : {
-       margin : 10,
-       backgroundColor : "#ffffff",
+       backgroundColor : "#0033FF",
        alignItems : "center",
        justifyContent : "center",
-       width : 50,
-       height : 50,
+       width : 60,
+       height : 60,
        padding : 15,
        borderRadius : 50,
        shadowColor: "#000",

@@ -1,18 +1,23 @@
 import React, { Component } from "react";
 import { StyleSheet,  View,  Text ,TouchableOpacity} from 'react-native';
-import Image from '../constant/image'
-export default function Button(){
+import Image from '../../constant/image'
+import * as Speech from 'expo-speech';
+export default (props) => {
+    const speaker = (text) => {
+        Speech.speak(text)
+    }
     return(
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => speaker(props.text)}>
             <View style={styles.wrapperButton}> 
-                <Image.svg.box width={30} height={30}/>
+                <Image.svg.speaker width={30} height={30}/>
             </View>
         </TouchableOpacity>
     )
 }
 const styles = StyleSheet.create({
    wrapperButton : {
-       backgroundColor : "#21BF73",
+       margin : 10,
+       backgroundColor : "#ffffff",
        alignItems : "center",
        justifyContent : "center",
        width : 50,
@@ -24,6 +29,8 @@ const styles = StyleSheet.create({
             width: 0,
             height: 2,
         },
+        marginLeft : 20,
+        marginRight : 20,
         shadowOpacity: 0.4,
         shadowRadius: 2.62,
 

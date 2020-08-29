@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet,  View,  Text ,TouchableOpacity} from 'react-native';
-import Image from '../constant/image'
+import Image from '../../constant/image'
 export default function Button(){
     return(
         <TouchableOpacity>

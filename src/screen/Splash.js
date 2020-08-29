@@ -1,5 +1,5 @@
 import React from 'react';
-import Styles from '../style/splash'
+import {LogoText} from '../style/index'
 import {Block} from '../component/index'
 import Image from '../constant/image'
 import {Dimensions} from 'react-native'
@@ -11,7 +11,7 @@ export default function SplashScreen(){
     <Block center safe>
       <Block middle>
         <Image.svg.logo width={width + 10} height={height * 2 / 5}/>
-        <Styles.LogoText>Work Hunter</Styles.LogoText>
+        <LogoText>Work Hunter</LogoText>
       </Block>  
     </Block>
     )

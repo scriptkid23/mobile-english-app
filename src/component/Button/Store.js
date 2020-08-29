@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import { StyleSheet,  View,  Text ,TouchableOpacity} from 'react-native';
-import Image from '../constant/image'
+import Image from '../../constant/image'
 export default function Button(){
     return(
         <TouchableOpacity>
             <View style={styles.wrapperButton}> 
-                <Image.svg.camera width={30} height={30}/>
+                <Image.svg.box width={30} height={30}/>
             </View>
         </TouchableOpacity>
     )
 }
 const styles = StyleSheet.create({
    wrapperButton : {
-       backgroundColor : "#0033FF",
+       backgroundColor : "#21BF73",
        alignItems : "center",
        justifyContent : "center",
-       width : 60,
-       height : 60,
+       width : 50,
+       height : 50,
        padding : 15,
        borderRadius : 50,
        shadowColor: "#000",
@@ -24,8 +24,6 @@ const styles = StyleSheet.create({
             width: 0,
             height: 2,
         },
-        marginLeft : 20,
-        marginRight : 20,
         shadowOpacity: 0.4,
         shadowRadius: 2.62,
 
