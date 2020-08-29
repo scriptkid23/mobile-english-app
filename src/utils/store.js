@@ -6,10 +6,12 @@ import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client'
 import {FETCH_DATA} from '../graphql/queries'
 import Data from '../constant/data'
+
 export default ({ children }) => {
     const [homeState,homeDispatch] = React.useReducer(homeReducer,homeDefault)
     const [cameraState,cameraDispatch] = React.useReducer(cameraReducer,cameraDefault)
     const { data, error, loading } = useQuery(FETCH_DATA);
+
     const store = {
       data : data ? {payload : data.allObjectInformation.edges} : {payload:Data.data.allObjectInformation.edges},
       home : {state : homeState, dispatch : homeDispatch},

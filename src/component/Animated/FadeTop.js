@@ -3,7 +3,6 @@ import { Animated } from 'react-native';
 
 export default function FadeTop(props){
   const fadeAnim = useRef(new Animated.Value(0)).current  // Initial value for opacity: 0
-  console.log("line 6",props.trigger)
   const _start = () => {
     Animated.timing(
       fadeAnim,

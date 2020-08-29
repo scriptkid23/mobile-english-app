@@ -3,9 +3,33 @@ import { Text, View, TouchableOpacity ,Button,ImageBackground,StyleSheet} from '
 import { Camera, } from 'expo-camera';
 import {Block} from '../component/index'
 import {StoreContext} from '../utils/store'
-import {Camera as Capture,Back,Flash} from '../component/Button/index'
+import {Camera as Capture,Back,Flash,Magic} from '../component/Button/index'
 import styled from 'styled-components'
-import FadeBottom from '../component/Animated/FadeTop'
+import FadeTop from '../component/Animated/FadeTop'
+import {getFilename} from '../utils/extensions';
+import axios from 'axios';
+import FormData from 'form-data';
+
+function ObjectDetectionRequested(param){
+    let formData = new FormData();
+    formData.append('file',{
+      uri : param.replace('file://',''),
+      name : getFilename(param),
+      type : 'image/jpeg'
+    })
+    return axios({
+      method : "POST",
+      url : "/api/classifier/image",
+      baseURL : "http://192.168.0.108:5000/",
+      headers :{ 
+        'accept': 'application/json',
+        'content-type': 'multipart/form-data'
+      },
+      data : formData
+    })
+  
+}
+
 export default function CameraExample() {
   const [hasPermission, setHasPermission] = useState(null);
 
@@ -23,7 +47,30 @@ export default function CameraExample() {
       setHasPermission(status === 'granted');
     })();
   }, []);
-  
+  const handleImage = async () => {
+    camera.dispatch({type : "PROCESS_IMAGE_REQUESTED"})
+      try {
+        let {data} = await ObjectDetectionRequested(camera.state.uri)
+        if(Object.keys(data).length === 0 || data.score <= 80){
+          camera.dispatch({
+            type : "PROCESS_IMAGE_SUCCEEDED",
+            message : "Object cannot be recognized"
+          })
+          return;
+        }
+        camera.dispatch({
+          type : "PROCESS_IMAGE_SUCCEEDED",
+          data : data,
+          message : "Process image succeeded",
+        })
+      } catch (error) {
+        camera.dispatch({
+          type : "PROCESS_IMAGE_FAILED",
+          message : error,
+        })
+      }
+  }
+
 
   const snap = async () => {
       let { uri, width, height, exif, base64 } = await ref.current.takePictureAsync()
@@ -56,13 +103,20 @@ export default function CameraExample() {
   const ImagePreviewScreen = () => {
     return(
       <ImageBackground source={{uri:camera.state.uri}} style={styles.image}>
+          <Block safe>
+              <FadeTop duration={1000}>
+                <Back
+                  type={"BACK_TO_CAMERA"}
+                  back={() => camera.dispatch({type:"BACK"})}
+                />
+              </FadeTop>
+          </Block> 
           <WrapperFeature>
-            <FadeBottom>
-              <Back
-              type={"BACK_TO_CAMERA"}
-              back={() => camera.dispatch({type:"BACK"})}
+            <FadeTop duration={500}>
+              <Magic
+                action={() => handleImage()}
               />
-            </FadeBottom>
+            </FadeTop>
           </WrapperFeature>
       </ImageBackground>
     )

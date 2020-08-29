@@ -6,6 +6,7 @@ import Speaker from '../../assets/image/speaker.svg';
 import Chopsticks from '../../assets/image/chopsticks.svg';
 import Back from '../../assets/image/back.svg';
 import Flash from '../../assets/image/Flash.svg';
+import Glyph from '../../assets/image/Glyph.svg'
 const ImageStore = {
     png:{
         background : require('../../assets/image/background.png'),
@@ -19,6 +20,7 @@ const ImageStore = {
         chopsticks : Chopsticks,
         back : Back,
         flash : Flash,
+        glyph : Glyph,
         
         
     }

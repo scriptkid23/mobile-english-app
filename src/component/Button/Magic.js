@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import { StyleSheet,  View,  Text ,TouchableOpacity} from 'react-native';
 import Image from '../../constant/image'
-export default function Button({snap}){
-    const handleAction = () => {
-        if(snap){snap();return}
-    }
+export default function Button({action}){
     return(
-        <TouchableOpacity onPress={() => handleAction()}>
+        <TouchableOpacity onPress={() => action()}>
             <View style={styles.wrapperButton}> 
-                <Image.svg.camera width={30} height={30}/>
+                <Image.svg.glyph width={30} height={30}/>
             </View>
         </TouchableOpacity>
     )
