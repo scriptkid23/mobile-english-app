@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity ,Button,ImageBackground,StyleSheet} from 'react-native';
-import { Camera, } from 'expo-camera';
+import {Text, View, ImageBackground, StyleSheet,Alert} from 'react-native';
+import { Camera } from 'expo-camera';
+import LottieView from 'lottie-react-native';
 import {Block} from '../component/index'
 import {StoreContext} from '../utils/store'
 import {Camera as Capture,Back,Flash,Magic} from '../component/Button/index'
@@ -30,7 +31,7 @@ function ObjectDetectionRequested(param){
   
 }
 
-export default function CameraExample() {
+export default function ({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
 
   const [type, setType] = useState(Camera.Constants.Type.back);
@@ -38,8 +39,9 @@ export default function CameraExample() {
   const [autoFocus,setAutoFocus] = useState(Camera.Constants.AutoFocus.on);
 
   const {camera} = React.useContext(StoreContext);
-
+  let payload = React.useContext(StoreContext);
   const ref = React.useRef(null);
+  
   // Permission Camera before using 
   useEffect(() => {
     (async () => {
@@ -56,13 +58,19 @@ export default function CameraExample() {
             type : "PROCESS_IMAGE_SUCCEEDED",
             message : "Object cannot be recognized"
           })
-          return;
+          Alert.alert('Word hunter',"Object cannot be recognized")
         }
-        camera.dispatch({
-          type : "PROCESS_IMAGE_SUCCEEDED",
-          data : data,
-          message : "Process image succeeded",
-        })
+        else{
+          let obj = payload.data.payload.find(e => e.node.id_ === data.id)
+          camera.dispatch({
+            type : "PROCESS_IMAGE_SUCCEEDED",
+            data : obj,
+            message : "Process image succeeded",
+          })
+          navigation.navigate('Detail',{data:obj.node})
+        }
+      
+       
       } catch (error) {
         camera.dispatch({
           type : "PROCESS_IMAGE_FAILED",
@@ -70,8 +78,6 @@ export default function CameraExample() {
         })
       }
   }
-
-
   const snap = async () => {
       let { uri, width, height, exif, base64 } = await ref.current.takePictureAsync()
       camera.dispatch({
@@ -112,11 +118,20 @@ export default function CameraExample() {
               </FadeTop>
           </Block> 
           <WrapperFeature>
-            <FadeTop duration={500}>
+            {camera.state.loading ? <View style={styles.wrapperButton}>
+              <LottieView
+                autoPlay 
+                style={{
+                  width:150,
+                }}
+                source={require('../../assets/animation/847-loading-circle.json')}
+              />
+            </View>:<FadeTop duration={500}>
               <Magic
                 action={() => handleImage()}
               />
-            </FadeTop>
+            </FadeTop>}
+           
           </WrapperFeature>
       </ImageBackground>
     )
@@ -129,25 +144,6 @@ export default function CameraExample() {
   }
   return (
     <Block flex>
-        {/* <Camera
-          style={{flex : 1}}
-          type = {type}
-          flashMode = {flashMode}
-          autoFocus = {autoFocus}
-          ref = {ref}
-        >
-          <WrapperFeature>
-              <Back/>
-              <Capture
-                snap = {() => snap()}
-              />
-              <Flash 
-                turnOff = {() => setFlashMode(Camera.Constants.FlashMode.off)}
-                turnOn = {() => setFlashMode(Camera.Constants.FlashMode.on)}
-              />
-          </WrapperFeature>
-         
-        </Camera> */}
         {camera.state.uri.length > 0 ? ImagePreviewScreen() :  CameraScreen()} 
     </Block>
   );
@@ -165,5 +161,25 @@ const styles = StyleSheet.create({
     flex : 1,
     resizeMode : "cover",
     justifyContent : "center",
-  }
+  },
+  wrapperButton : {
+    backgroundColor : "#0033FF",
+    alignItems : "center",
+    justifyContent : "center",
+    width : 60,
+    height : 60,
+    padding : 15,
+    borderRadius : 50,
+    shadowColor: "#000",
+     shadowOffset: {
+         width: 0,
+         height: 2,
+     },
+     marginLeft : 20,
+     marginRight : 20,
+     shadowOpacity: 0.4,
+     shadowRadius: 2.62,
+
+     elevation: 6,
+}
 })

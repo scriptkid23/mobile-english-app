@@ -1,5 +1,5 @@
 export const defaultState = {
-   uri : "https://m.media-amazon.com/images/M/MV5BMWU4ZjNlNTQtOGE2MS00NDI0LWFlYjMtMmY3ZWVkMjJkNGRmXkEyXkFqcGdeQXVyNjE1OTQ0NjA@.jpg",
+   uri : "",
    width : "",
    height : "",
    exif : "",
@@ -19,6 +19,7 @@ export default function homeReducer(state,action){
             return{
                 ...state,
                 uri : "",
+                loading : false,
             }
         case 'PROCESS_IMAGE_REQUESTED':
             return{

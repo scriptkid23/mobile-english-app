@@ -9,7 +9,6 @@ import {SharedElement} from 'react-navigation-shared-element'
 const { width, height } = Dimensions.get("window");
 export default function DetailScreen(props){
     const {data} = props.route.params;
-    // console.log(props.navigation)
     return(
         <Container backgroundColor={"#163172"}>
             <Block safe row noflex>
